@@ -1,0 +1,11 @@
+{
+	"name": "Server",
+	"version": "0.0.1",
+	"private": "true",
+	"dependencies": {
+		"ejs": "^2.6.1",
+		"express": "*",
+		"socket.io": "*",
+		"browser-refresh": "*"
+	}
+}
