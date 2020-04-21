@@ -3,9 +3,10 @@
 	"version": "0.0.1",
 	"private": "true",
 	"dependencies": {
+		"browser-refresh": "*",
+		"cool-ascii-faces": "^1.3.4",
 		"ejs": "^2.6.1",
 		"express": "*",
-		"socket.io": "*",
-		"browser-refresh": "*"
+		"socket.io": "*"
 	}
 }
