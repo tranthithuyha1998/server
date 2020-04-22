@@ -23,7 +23,7 @@ var img_text;
 var poweroff=true;
 
 app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, image:image, captime:captime }); });
-/*
+
 //Thông báo có thiết bị kết nối
 io.sockets.on('connection',function(socket){
     console.log("There is a new device connected to server !!!");
@@ -108,7 +108,7 @@ io.sockets.on('connection',function(socket){
       socket.emit('server-send-img', img_text);
     })
 });
-*/
+
 /*
 io.sockets.on('connection', function(socket){
 socket.on('new user', function(name, data){
