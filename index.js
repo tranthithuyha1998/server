@@ -105,7 +105,7 @@ io.sockets.on('connection',function(socket){
       var string = JSON.stringify(img_text);
       var objectValue = JSON.parse(string);
       // goi len android
-
+      io.sockets.emit("send-img", img_text)
       //
       speed=null
       message=null
@@ -122,9 +122,9 @@ io.sockets.on('connection',function(socket){
         var string = JSON.stringify(request);
         var objectValue = JSON.parse(string);
         console.log(objectValue);
-        message = "Android device is connected!: "+objectValue;
+        // message = "Android device is connected!: "+objectValue;
         var caseRequest = objectValue["request"];
-        switch(caseRequest){
+        switch(objectValue){
             case "start": 
                 // gởi xuống raspi lệnh start
                 break;
@@ -138,6 +138,7 @@ io.sockets.on('connection',function(socket){
                 // gởi xuống raspi lệnh speed_slow
                 break;
             case "getpic":
+                io.sockets.emit("request_img")
                 // gởi xuống  request get pic
                 // nhận pic từ raspi
                 // gởi pic đến android, name event: send-img, value: {"Image":"txt_img", "CapTime":"timer"}
