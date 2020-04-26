@@ -5,7 +5,7 @@ app = express(),
 server = require('http').createServer(app),
 io = require('socket.io').listen(server),
 users = {};
-server.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3000);  
 app.use(express.static(__dirname + '/public'));
 var fs = require("fs");
 /*
@@ -18,7 +18,7 @@ var image;
 var captime;
 var androidClients = [];
 var nhanDuoc = false;
-var suitcase_status;
+var car_status;
 var img_text;
 var poweroff=true;
 
@@ -28,9 +28,20 @@ app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:mess
 io.sockets.on('connection',function(socket){
     console.log("There is a new device connected to server !!!");
 
-    socket.on('user2-on',function(mode){
-      console.log("USER2 is connected !");
-      message = "USER2 is connected !"
+/*
+
+-> event: from-android
+-> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
+
+<- event: car-status
+<- value: {"status":"stop, running, lost", "speed":"45312"}
+
+*/
+
+/*
+    socket.on('car-isTracking',function(mode){
+      console.log("CAR is connected !");
+      message = "CAR is connected !"
       socket.emit('car-off',{status: poweroff});
       //Add Android ID to an array
       androidClients.push(socket.id);
@@ -41,64 +52,105 @@ io.sockets.on('connection',function(socket){
           console.log('Android Client got disconnect');
       });
     })
+*/
 
+/*
     socket.on('car-on',function(mode){
       console.log("CAR is connected !")
       message="CAR is tracking !";
       poweroff=false;
       androidClients.forEach(function(entry){
-          console.log("inform android suitcase on");
-          io.sockets.connected[entry].emit('suitcase-off',{status: poweroff});
+          console.log("inform android car on");
+          io.sockets.connected[entry].emit('car-off',{status: poweroff});
        });
 
       socket.on('disconnect',function(){
         poweroff=true;
-        suitcase_status=null;
+        car_status=null;
         img_text=null;
         socket.emit("reconnect",true);
         androidClients.forEach(function(entry){
-            io.sockets.connected[entry].emit('suitcase-off',{status: poweroff});
-            console.log("inform android suitcase off");
+            io.sockets.connected[entry].emit('car-off',{status: poweroff});
+            console.log("inform android car off");
          });
       })
     })
+*/
     //Raspberry send status
-    socket.on('car-send-status',function(info){
-        suitcase_status=info;
-        console.log("Server has received status of suitcase!");
+    socket.on('car-speed',function(info){
+        speed=info;
+        console.log("Server has received speed of car!\n");
         nhanDuoc = true;
         //Gửi tới tất cả device
-        io.sockets.emit('suitcase-send-status-ok',{status : nhanDuoc});
-        var string = JSON.stringify(suitcase_status);
+        io.sockets.emit('car-send-speed-ok',{status : nhanDuoc});
+        var string = JSON.stringify(speed);
         var objectValue = JSON.parse(string);
-        isTracking =objectValue['isTracking'];
-        timeLost=objectValue['timerLost']
-        if(isTracking === 1){
-          message="Tracking";
-          captime=timeLost;
-        }
-        else{message="Lost "+objectValue['lostTime']+"s"}
+        // goi len android
+
+        /// 
+        image=null
+        captime=null
+        speed =objectValue['Speed'];
+        message="Speed: "+ speed;
+        // else{message="Lost "+objectValue['lostTime']+"s"}
     })
     nhanDuoc=false;
 
     //Raspberry send image information
     socket.on("car-send-img", function(img_info) {
       img_text=img_info;
-      console.log("Server has received image!");
+      console.log("Server has received image!\n");
       nhanDuoc = true;
       io.sockets.emit('car-send-img-ok',{status : nhanDuoc});
       var string = JSON.stringify(img_text);
       var objectValue = JSON.parse(string);
-      if(isTracking === 0){
-        image=objectValue['Image'];
-        captime=objectValue['CapTime'];
-      }
+      // goi len android
+
+      //
+      speed=null
+      message=null
+      image=objectValue['Image'];
+      captime=objectValue['CapTime'];
     })
 
-    //Android client request info
-    socket.on('client-request-status',function(){
-    	console.log("Sending suitcase status to Android");
-    	socket.emit('server-send-status', suitcase_status);
+    // -> event: from-android
+    // -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
+    socket.on("from-android", function(info){
+        console.log("Android device is connected !")
+        request = info;
+        var string = JSON.stringify(request);
+        var objectValue = JSON.parse(string);
+        console.log(objectValue);
+        var caseRequest = objectValue["request"];
+        switch(caseRequest){
+            case "start": 
+                // gởi xuống raspi lệnh start
+                break;
+            case "stop":
+                // gởi xuống raspi lệnh stop
+                break;
+            case "speed_fast":
+                // gởi xuống raspi lệnh speed_fast
+                break;
+            case "speed_slow":
+                // gởi xuống raspi lệnh speed_slow
+                break;
+            case "getpic":
+                // gởi xuống  request get pic
+                // nhận pic từ raspi
+                // gởi pic đến android, name event: send-img, value: {"Image":"txt_img", "CapTime":"timer"}
+                break;
+            default:
+                break;
+        }
+    })
+
+    // <- event: car-status
+    // <- value: {"status":"stop, running, lost", "speed":"45312"}
+    socket.on('requestStatus',function(){
+
+    	// console.log("Sending car status to Android");
+    	// socket.emit('car-status', car_status);
     })
 
     //Android client request img
@@ -108,7 +160,6 @@ io.sockets.on('connection',function(socket){
       socket.emit('server-send-img', img_text);
     })
 });
-
 /*
 io.sockets.on('connection', function(socket){
 socket.on('new user', function(name, data){
