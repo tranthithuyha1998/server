@@ -117,11 +117,12 @@ io.sockets.on('connection',function(socket){
     // -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
     socket.on("from-android", function(info){
         console.log("Android device is connected !")
-        message = "Android device is connected !";
+        
         request = info;
         var string = JSON.stringify(request);
         var objectValue = JSON.parse(string);
         console.log(objectValue);
+        message = "Android device is connected !: "+objectValue;
         var caseRequest = objectValue["request"];
         switch(caseRequest){
             case "start": 
