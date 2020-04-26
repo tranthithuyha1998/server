@@ -77,21 +77,22 @@ io.sockets.on('connection',function(socket){
     })
 */
     //Raspberry send status
-    socket.on('car-speed',function(info){
-        speed=info;
+    socket.on('car-send-stt',function(info){
+        stt=info;
         console.log("Server has received speed of car!\n");
         nhanDuoc = true;
         //Gửi tới tất cả device
-        io.sockets.emit('car-send-speed-ok',{status : nhanDuoc});
-        var string = JSON.stringify(speed);
+        io.sockets.emit('car-send-stt-ok',{status : nhanDuoc});
+        var string = JSON.stringify(stt);
         var objectValue = JSON.parse(string);
         // goi len android
-
+        io.sockets.emit("car-status", stt)
         /// 
         image=null
         captime=null
-        speed =objectValue['Speed'];
-        message="Speed: "+ speed;
+        speed =objectValue['speed'];
+        Stt = objectValue['status']
+        message="Status: "+ Stt+" ---" + "Speed: "+ speed;
         // else{message="Lost "+objectValue['lostTime']+"s"}
     })
     nhanDuoc=false;
@@ -126,6 +127,7 @@ io.sockets.on('connection',function(socket){
         var caseRequest = objectValue["request"];
         switch(objectValue){
             case "start": 
+                io.sockets.emit("")
                 // gởi xuống raspi lệnh start
                 break;
             case "stop":
@@ -151,7 +153,7 @@ io.sockets.on('connection',function(socket){
     // <- event: car-status
     // <- value: {"status":"stop, running, lost", "speed":"45312"}
     socket.on('requestStatus',function(){
-
+        io.sockets.emit("requestStatus")
     	// console.log("Sending car status to Android");
     	// socket.emit('car-status', car_status);
     })
