@@ -163,6 +163,10 @@ io.sockets.on('connection',function(socket){
         if (nhanDuoc1==false){
             io.sockets.emit('car-disconnect', true)
         }
+        else{
+            stt={"status":objectValue,"speed":"..."}
+            io.sockets.emit("car-status", stt)
+        }
         // await sleep(1000)
         // if (nhanDuoc1==false)
         //     continue EmitAgaint;
