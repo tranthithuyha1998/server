@@ -125,6 +125,7 @@ io.sockets.on('connection',function(socket){
         console.log(objectValue);
         // message = "Android device is connected!: "+objectValue;
         var caseRequest = objectValue["request"];
+        console.log("receive from Android: "+objectValue)
         switch(objectValue){
             case "start": 
                 io.sockets.emit("from-server", "start")
@@ -161,10 +162,12 @@ io.sockets.on('connection',function(socket){
         }
         }, 1000);
         if (nhanDuoc1==false){
+            console.log("receive from Android Fail: "+objectValue)
             io.sockets.emit('car-disconnect', true)
         }
         else{
             stt={"status":objectValue,"speed":"..."}
+            console.log("receive from Android OK: "+objectValue)
             io.sockets.emit("car-status", stt)
         }
         // await sleep(1000)
