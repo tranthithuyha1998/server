@@ -153,23 +153,23 @@ io.sockets.on('connection',function(socket){
                 break;
         }
         nhanDuoc1 = false
-        let counter = 0;
-        const intervalId = setInterval(() => {
-        counter += 1;
-        if (counter === 5) {
-            // console.log('Done');
-            clearInterval(intervalId);
-        }
-        }, 1000);
-        if (nhanDuoc1==false){
-            console.log("receive from Android Fail: "+objectValue)
-            io.sockets.emit('car-disconnect', true)
-        }
-        else{
-            stt={"status":objectValue,"speed":"..."}
-            console.log("receive from Android OK: "+objectValue)
-            io.sockets.emit("car-status", stt)
-        }
+        // let counter = 0;
+        // const intervalId = setInterval(() => {
+        // counter += 1;
+        // if (counter === 5) {
+        //     // console.log('Done');
+        //     clearInterval(intervalId);
+        // }
+        // }, 1000);
+        // if (nhanDuoc1==false){
+        //     console.log("receive from Android Fail: "+objectValue)
+        //     io.sockets.emit('car-disconnect', true)
+        // }
+        // else{
+        //     stt={"status":objectValue,"speed":"..."}
+        //     console.log("receive from Android OK: "+objectValue)
+        //     io.sockets.emit("car-status", stt)
+        // }
         // await sleep(1000)
         // if (nhanDuoc1==false)
         //     continue EmitAgaint;
