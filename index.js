@@ -14,6 +14,7 @@ res.status(200).send('OK')
 });
 */
 var message="Self Driving Car";
+var deviceConnect;
 var image;
 var captime;
 var androidClients = [];
@@ -23,7 +24,7 @@ var img_text;
 var poweroff=true;
 var nhanDuoc1 = false;
 var androidClients = [];
-app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, image:image, captime:captime }); });
+app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, deviceConnect: androidClients, image:image, captime:captime }); });
 
 //Thông báo có thiết bị kết nối
 io.sockets.on('connection',function(socket){
