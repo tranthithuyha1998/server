@@ -28,9 +28,9 @@ app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:mess
 
 //Thông báo có thiết bị kết nối
 io.sockets.on('connection',function(socket){
-    console.log("There is a new device connected to server !!!");
 
     socket.on("android-connect", function(mode){
+        console.log("There is a new device connected to server !!!");
         console.log("Android connected! ID: "+socket.id);
         androidClients.push(socket.id);
     })
