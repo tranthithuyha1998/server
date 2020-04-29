@@ -24,7 +24,7 @@ var img_text;
 var poweroff=true;
 var nhanDuoc1 = false;
 var androidClients = [];
-app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, deviceConnect: androidClients, image:image, captime:captime }); });
+app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, image:image, captime:captime }); });
 
 //Thông báo có thiết bị kết nối
 io.sockets.on('connection',function(socket){
@@ -59,7 +59,7 @@ io.sockets.on('connection',function(socket){
         captime=null
         speed =objectValue['speed'];
         Stt = objectValue['status']
-        message="Status: "+ Stt+" ---" + "Speed: "+ speed;
+        message="Status: "+ Stt+" ---" + "Speed: "+ speed + "device: " + androidClients;
         // else{message="Lost "+objectValue['lostTime']+"s"}
     })
     nhanDuoc=false;
