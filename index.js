@@ -118,7 +118,7 @@ io.sockets.on('connection',function(socket){
     // -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
     socket.on("from-android", function(info){
         console.log("Android device is connected !");
-        EmitAgaint: while(true){
+        // EmitAgaint: while(true){
             request = info;
             var string = JSON.stringify(request);
             var objectValue = JSON.parse(string);
@@ -152,7 +152,7 @@ io.sockets.on('connection',function(socket){
                 default:
                     break;
             }
-            nhanDuoc1 = false
+            // nhanDuoc1 = false
             let counter = 0;
             const intervalId = setInterval(() => {
             counter += 1;
@@ -165,16 +165,17 @@ io.sockets.on('connection',function(socket){
                 console.log("receive from Android Fail: "+objectValue)
                 io.sockets.emit('car-disconnect', true)
             }
-            // else{
-            //     stt={"status":objectValue,"speed":"..."}
-            //     console.log("receive from Android OK: "+objectValue)
-            //     io.sockets.emit("car-status", stt)
-            // }
+            else{
+                nhanDuoc1 = false
+                stt={"status":objectValue,"speed":"..."}
+                console.log("receive from Android OK: "+objectValue)
+                io.sockets.emit("car-status", stt)
+            }
             // await sleep(1000)
-            if (nhanDuoc1==false)
-                continue EmitAgaint;
-            break;
-        }
+        //     if (nhanDuoc1==false)
+        //         continue EmitAgaint;
+        //     break;
+        // }
     })
 
     socket.on('from-server-ok', function(info){
