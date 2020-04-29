@@ -170,7 +170,7 @@ io.sockets.on('connection',function(socket){
                 console.log("receive from Android OK: "+objectValue)
                 io.sockets.emit("car-status", stt)
             }
-            await sleep(1000)
+            // await sleep(1000)
             if (nhanDuoc1==false)
                 continue EmitAgaint;
             break;
