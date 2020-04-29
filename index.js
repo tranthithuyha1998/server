@@ -22,59 +22,25 @@ var car_status;
 var img_text;
 var poweroff=true;
 var nhanDuoc1 = false;
+var androidClients = [];
 app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, image:image, captime:captime }); });
 
 //Thông báo có thiết bị kết nối
 io.sockets.on('connection',function(socket){
     console.log("There is a new device connected to server !!!");
 
-/*
+    socket.on("android-connect", function(mode){
+        console.log("Android connected!");
+        androidClients.push(socket.id);
+    }
 
+/*
 -> event: from-android
 -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
 
 <- event: car-status
 <- value: {"status":"stop, running, lost", "speed":"45312"}
 
-*/
-
-/*
-    socket.on('car-isTracking',function(mode){
-      console.log("CAR is connected !");
-      message = "CAR is connected !"
-      socket.emit('car-off',{status: poweroff});
-      //Add Android ID to an array
-      androidClients.push(socket.id);
-      socket.on('disconnect',function(){
-          //Remove from the list if disconnected
-          androidClients.splice(androidClients.indexOf(socket.id),1);
-          console.log('\n\nID: '+ socket.id);
-          console.log('Android Client got disconnect');
-      });
-    })
-*/
-
-/*
-    socket.on('car-on',function(mode){
-      console.log("CAR is connected !")
-      message="CAR is tracking !";
-      poweroff=false;
-      androidClients.forEach(function(entry){
-          console.log("inform android car on");
-          io.sockets.connected[entry].emit('car-off',{status: poweroff});
-       });
-
-      socket.on('disconnect',function(){
-        poweroff=true;
-        car_status=null;
-        img_text=null;
-        socket.emit("reconnect",true);
-        androidClients.forEach(function(entry){
-            io.sockets.connected[entry].emit('car-off',{status: poweroff});
-            console.log("inform android car off");
-         });
-      })
-    })
 */
     //Raspberry send status
     socket.on('car-send-stt',function(info){
@@ -133,6 +99,12 @@ io.sockets.on('connection',function(socket){
                     break;
                 case "stop":
                     io.sockets.emit("from-server", "stop")
+                    socket.on('disconnect',function(){
+                        //Remove from the list if disconnected
+                        androidClients.splice(androidClients.indexOf(socket.id),1);
+                        console.log('\n\nID: '+ socket.id);
+                        console.log('Android Client got disconnect');
+                    });
                     // gởi xuống raspi lệnh stop
                     break;
                 case "speed_fast":
@@ -217,7 +189,6 @@ socket.on('new user', function(name, data){
         console.log('add nickName');
         updateNickNames();
     }
-
 });
 
 function updateNickNames(){
@@ -238,4 +209,44 @@ socket.on('disconnect', function(data){
     updateNickNames();
 });
 });
+*/
+
+
+/*
+    socket.on('car-isTracking',function(mode){
+      console.log("CAR is connected !");
+      message = "CAR is connected !"
+      socket.emit('car-off',{status: poweroff});
+      //Add Android ID to an array
+      androidClients.push(socket.id);
+      socket.on('disconnect',function(){
+          //Remove from the list if disconnected
+          androidClients.splice(androidClients.indexOf(socket.id),1);
+          console.log('\n\nID: '+ socket.id);
+          console.log('Android Client got disconnect');
+      });
+    })
+*/
+
+/*
+    socket.on('car-on',function(mode){
+      console.log("CAR is connected !")
+      message="CAR is tracking !";
+      poweroff=false;
+      androidClients.forEach(function(entry){
+          console.log("inform android car on");
+          io.sockets.connected[entry].emit('car-off',{status: poweroff});
+       });
+
+      socket.on('disconnect',function(){
+        poweroff=true;
+        car_status=null;
+        img_text=null;
+        socket.emit("reconnect",true);
+        androidClients.forEach(function(entry){
+            io.sockets.connected[entry].emit('car-off',{status: poweroff});
+            console.log("inform android car off");
+         });
+      })
+    })
 */
