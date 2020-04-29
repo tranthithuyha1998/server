@@ -32,7 +32,7 @@ io.sockets.on('connection',function(socket){
     socket.on("android-connect", function(mode){
         console.log("Android connected!");
         androidClients.push(socket.id);
-    }
+    })
 
 /*
 -> event: from-android
