@@ -118,62 +118,63 @@ io.sockets.on('connection',function(socket){
     // -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
     socket.on("from-android", function(info){
         console.log("Android device is connected !");
-        // EmitAgaint: while(true){
-        request = info;
-        var string = JSON.stringify(request);
-        var objectValue = JSON.parse(string);
-        console.log(objectValue);
-        // message = "Android device is connected!: "+objectValue;
-        var caseRequest = objectValue["request"];
-        console.log("receive from Android: "+objectValue)
-        switch(objectValue){
-            case "start": 
-                io.sockets.emit("from-server", "start")
-                // gởi xuống raspi lệnh start
-                break;
-            case "stop":
-                io.sockets.emit("from-server", "stop")
-                // gởi xuống raspi lệnh stop
-                break;
-            case "speed_fast":
-                io.sockets.emit("from-server", "fast")
-                // gởi xuống raspi lệnh speed_fast
-                break;
-            case "speed_slow":
-                io.sockets.emit("from-server", "slow")
-                // gởi xuống raspi lệnh speed_slow
-                break;
-            case "getpic":
-                io.sockets.emit("from-server", "getpic")
-                // gởi xuống  request get pic
-                // nhận pic từ raspi
-                // gởi pic đến android, name event: send-img, value: {"Image":"txt_img", "CapTime":"timer"}
-                break;
-            default:
-                break;
+        EmitAgaint: while(true){
+            request = info;
+            var string = JSON.stringify(request);
+            var objectValue = JSON.parse(string);
+            console.log(objectValue);
+            // message = "Android device is connected!: "+objectValue;
+            var caseRequest = objectValue["request"];
+            console.log("receive from Android: "+objectValue)
+            switch(objectValue){
+                case "start": 
+                    io.sockets.emit("from-server", "start")
+                    // gởi xuống raspi lệnh start
+                    break;
+                case "stop":
+                    io.sockets.emit("from-server", "stop")
+                    // gởi xuống raspi lệnh stop
+                    break;
+                case "speed_fast":
+                    io.sockets.emit("from-server", "fast")
+                    // gởi xuống raspi lệnh speed_fast
+                    break;
+                case "speed_slow":
+                    io.sockets.emit("from-server", "slow")
+                    // gởi xuống raspi lệnh speed_slow
+                    break;
+                case "getpic":
+                    io.sockets.emit("from-server", "getpic")
+                    // gởi xuống  request get pic
+                    // nhận pic từ raspi
+                    // gởi pic đến android, name event: send-img, value: {"Image":"txt_img", "CapTime":"timer"}
+                    break;
+                default:
+                    break;
+            }
+            nhanDuoc1 = false
+            let counter = 0;
+            const intervalId = setInterval(() => {
+            counter += 1;
+            if (counter === 2) {
+                // console.log('Done');
+                clearInterval(intervalId);
+            }
+            }, 1000);
+            if (nhanDuoc1==false){
+                console.log("receive from Android Fail: "+objectValue)
+                io.sockets.emit('car-disconnect', true)
+            }
+            else{
+                stt={"status":objectValue,"speed":"..."}
+                console.log("receive from Android OK: "+objectValue)
+                io.sockets.emit("car-status", stt)
+            }
+            await sleep(1000)
+            if (nhanDuoc1==false)
+                continue EmitAgaint;
+            break;
         }
-        nhanDuoc1 = false
-        // let counter = 0;
-        // const intervalId = setInterval(() => {
-        // counter += 1;
-        // if (counter === 5) {
-        //     // console.log('Done');
-        //     clearInterval(intervalId);
-        // }
-        // }, 1000);
-        // if (nhanDuoc1==false){
-        //     console.log("receive from Android Fail: "+objectValue)
-        //     io.sockets.emit('car-disconnect', true)
-        // }
-        // else{
-        //     stt={"status":objectValue,"speed":"..."}
-        //     console.log("receive from Android OK: "+objectValue)
-        //     io.sockets.emit("car-status", stt)
-        // }
-        // await sleep(1000)
-        // if (nhanDuoc1==false)
-        //     continue EmitAgaint;
-        // break;
     })
 
     socket.on('from-server-ok', function(info){
