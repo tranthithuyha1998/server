@@ -31,7 +31,7 @@ io.sockets.on('connection',function(socket){
     console.log("There is a new device connected to server !!!");
 
     socket.on("android-connect", function(mode){
-        console.log("Android connected!");
+        console.log("Android connected! ID: "+socket.id);
         androidClients.push(socket.id);
     })
 
