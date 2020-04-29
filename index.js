@@ -59,7 +59,7 @@ io.sockets.on('connection',function(socket){
         captime=null
         speed =objectValue['speed'];
         Stt = objectValue['status']
-        message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device(" + length(androidClients) +"): " + androidClients;
+        message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
         // else{message="Lost "+objectValue['lostTime']+"s"}
     })
     nhanDuoc=false;
