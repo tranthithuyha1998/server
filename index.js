@@ -46,7 +46,7 @@ io.sockets.on('connection',function(socket){
     //Raspberry send status
     socket.on('car-send-stt',function(info){
         stt=info;
-        console.log("Server has received speed of car!\n");
+        console.log("Server has received stt of car!\n");
         nhanDuoc = true;
         //Gửi tới tất cả device
         io.sockets.emit('car-send-stt-ok',{status : nhanDuoc});
