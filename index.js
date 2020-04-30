@@ -1,5 +1,3 @@
-//==== awesomechat.js ====
-
 var express = require('express'),
 app = express(),
 server = require('http').createServer(app),
@@ -8,11 +6,7 @@ users = {};
 server.listen(process.env.PORT || 3000);  
 app.use(express.static(__dirname + '/public'));
 var fs = require("fs");
-/*
-app.get('/', function(req, res){
-res.status(200).send('OK')
-});
-*/
+
 var message="Self Driving Car";
 var deviceConnect;
 var image;
@@ -177,76 +171,3 @@ function sleep(ms) {
       setTimeout(resolve, ms);
     });
   } 
-/*
-io.sockets.on('connection', function(socket){
-socket.on('new user', function(name, data){
-        if (name in users){
-            data(false);
-        }else{
-            data(true);
-        socket.nickname = name;
-        users[socket.nickname] = socket;
-        console.log('add nickName');
-        updateNickNames();
-    }
-});
-
-function updateNickNames(){
-    io.sockets.emit('usernames', Object.keys(users));
-}
-socket.on('open-chatbox', function(data){
-    users[data].emit('openbox', {nick: socket.nickname});
-});
-socket.on('send message',function(data, sendto){
-    users[sendto].emit('new message',{msg: data, nick: socket.nickname, sendto: sendto});
-    users[socket.nickname].emit('new message',{msg: data, nick: socket.nickname, sendto: sendto});
-
-    console.log(data);
-});
-socket.on('disconnect', function(data){
-    if (!socket.nickname) return;
-    delete users[socket.nickname];
-    updateNickNames();
-});
-});
-*/
-
-
-/*
-    socket.on('car-isTracking',function(mode){
-      console.log("CAR is connected !");
-      message = "CAR is connected !"
-      socket.emit('car-off',{status: poweroff});
-      //Add Android ID to an array
-      androidClients.push(socket.id);
-      socket.on('disconnect',function(){
-          //Remove from the list if disconnected
-          androidClients.splice(androidClients.indexOf(socket.id),1);
-          console.log('\n\nID: '+ socket.id);
-          console.log('Android Client got disconnect');
-      });
-    })
-*/
-
-/*
-    socket.on('car-on',function(mode){
-      console.log("CAR is connected !")
-      message="CAR is tracking !";
-      poweroff=false;
-      androidClients.forEach(function(entry){
-          console.log("inform android car on");
-          io.sockets.connected[entry].emit('car-off',{status: poweroff});
-       });
-
-      socket.on('disconnect',function(){
-        poweroff=true;
-        car_status=null;
-        img_text=null;
-        socket.emit("reconnect",true);
-        androidClients.forEach(function(entry){
-            io.sockets.connected[entry].emit('car-off',{status: poweroff});
-            console.log("inform android car off");
-         });
-      })
-    })
-*/
