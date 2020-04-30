@@ -125,7 +125,6 @@ io.sockets.on('connection',function(socket){
                 default:
                     break;
             }
-            nhanDuoc1 = false
             let counter = 0;
             const intervalId = setInterval(() => {
             counter += 1;
