@@ -54,8 +54,6 @@ io.sockets.on('connection',function(socket){
         speed =objectValue['speed'];
         Stt = objectValue['status']
         message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
-        // else{message="Lost "+objectValue['lostTime']+"s"}
-        window.location.reload(false);
     })
 
     nhanDuoc=false;
