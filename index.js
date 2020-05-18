@@ -33,7 +33,7 @@ io.sockets.on('connection',function(socket){
 -> event: from-android
 -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
 <- event: car-status
-<- value: {"status":"stop, running, lost", "speed":"45312"}
+<- value: {"status":"stop, run, lost", "speed":"45312"}
 */
     //Raspberry send status
     socket.on('car-send-stt',function(info){
@@ -47,11 +47,23 @@ io.sockets.on('connection',function(socket){
         // goi len android
         io.sockets.emit("car-status", stt)
         /// 
-        image=null
-        captime=null
+        image=objectValue['Image'];
+        captime=objectValue['CapTime'];
         speed =objectValue['speed'];
         Stt = objectValue['status']
-        message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
+
+        if (Stt=="Run"){
+           message ="Status: Car is running,       " + "Speed: "+ speed;
+           image =null;
+           captime =null;
+        }
+        if(Stt=="Stop"){
+            message="Waring: 危ないよ！！！！　　　　";
+        }
+        if(Stt =="Lost"){
+            message ="Status: Opps! where I am now?";
+        }
+        // message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
         // else{message="Lost "+objectValue['lostTime']+"s"}
     })
     nhanDuoc=false;
