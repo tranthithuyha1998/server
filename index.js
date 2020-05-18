@@ -58,7 +58,7 @@ io.sockets.on('connection',function(socket){
            captime =null;
         }
         if(Stt=="Stop"){
-            message="Waring: 危ないよ！！！！　　　　";
+            message="Warning: 危ないよ！！！！　　　　";
         }
         if(Stt =="Lost"){
             message ="Opps! where I am now?";
@@ -132,7 +132,7 @@ io.sockets.on('connection',function(socket){
             let counter = 0;
             const intervalId = setInterval(() => {
             counter += 1;
-            if (counter === 2) {
+            if (counter === 3) {
                 // console.log('Done');
                 clearInterval(intervalId);
             }
