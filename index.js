@@ -51,6 +51,7 @@ io.sockets.on('connection',function(socket){
         captime=objectValue['CapTime'];
         speed =objectValue['speed'];
         Stt = objectValue['status']
+        ReStop = objectValue['ReStop']
 
         if (Stt=="Run"){
            message ="Car is running,       " + "Speed: "+ speed;
@@ -58,7 +59,13 @@ io.sockets.on('connection',function(socket){
            captime =null;
         }
         if(Stt=="Stop"){
-            message="Warning: 危ないよ！！！！　　　　";
+            if(ReStop==1){
+                message ="Obstacle"
+            }
+            if(ReStop==2){
+                message ="Bien bao"
+            }
+           // message="Warning: 危ないよ！！！！　　　　";
         }
         if(Stt =="Lost"){
             message ="Opps! where I am now?";
