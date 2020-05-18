@@ -48,7 +48,7 @@ io.sockets.on('connection',function(socket){
         var objectValue = JSON.parse(string);
         // goi len android
         io.sockets.emit("car-status", stt)
-        /// 
+    
         image=null
         captime=null
         speed =objectValue['speed'];
@@ -99,6 +99,8 @@ io.sockets.on('connection',function(socket){
                         androidClients.splice(androidClients.indexOf(socket.id),1);
                         console.log('\n\nID: '+ socket.id);
                         console.log('Android Client got disconnect');
+                        
+                    
                     });
                     // gởi xuống raspi lệnh stop
                     break;
@@ -119,6 +121,7 @@ io.sockets.on('connection',function(socket){
                 default:
                     break;
             }
+            //// わかりません
             let counter = 0;
             const intervalId = setInterval(() => {
             counter += 1;
@@ -137,6 +140,8 @@ io.sockets.on('connection',function(socket){
                 console.log("receive from Android OK: "+objectValue)
                 io.sockets.emit("car-status", stt)
             }
+
+            // car-disconnect ???
             // await sleep(1000)
         //     if (nhanDuoc1==false)
         //         continue EmitAgaint;
@@ -152,6 +157,12 @@ io.sockets.on('connection',function(socket){
     // <- value: {"status":"stop, running, lost", "speed":"45312"}
     socket.on('requestStatus',function(){
         io.sockets.emit("requestStatus")
+        if (status=="Stop"){
+            io.sockets.emit("from-server", "getpic")
+        }
+        if (status=="lost"){
+            io.sockets.emit("from-server", "getpic")
+        }
         // timeout=10s => againt
 
     	// console.log("Sending car status to Android");
