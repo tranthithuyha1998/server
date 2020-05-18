@@ -48,12 +48,31 @@ io.sockets.on('connection',function(socket){
         var objectValue = JSON.parse(string);
         // goi len android
         io.sockets.emit("car-status", stt)
+        /////////////////////////////////
+        if(stt=="Lost"){
+            io.sockets.emit("send-img", img_text)
+            speed=null
+            message=null
+            image=objectValue['Image'];
+            captime=objectValue['CapTime'];
+            
+        }
+        if(stt == "Stop"){
+            io.sockets.emit("send-img", img_text)
+            speed=null
+            message=null
+            image=objectValue['Image'];
+            captime=objectValue['CapTime'];
+        }
+        if(stt=="Run"){
+            image=null
+            captime=null
+            speed =objectValue['speed'];
+            Stt = objectValue['status']
+            message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
+        }
     
-        image=null
-        captime=null
-        speed =objectValue['speed'];
-        Stt = objectValue['status']
-        message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
+
     })
 
     nhanDuoc=false;
@@ -68,7 +87,7 @@ io.sockets.on('connection',function(socket){
       var objectValue = JSON.parse(string);
       // goi len android
       io.sockets.emit("send-img", img_text)
-      //
+      
       speed=null
       message=null
       image=objectValue['Image'];
@@ -157,12 +176,7 @@ io.sockets.on('connection',function(socket){
     // <- value: {"status":"stop, running, lost", "speed":"45312"}
     socket.on('requestStatus',function(){
         io.sockets.emit("requestStatus")
-        if (status=="Stop"){
-            io.sockets.emit("from-server", "getpic")
-        }
-        if (status=="lost"){
-            io.sockets.emit("from-server", "getpic")
-        }
+        
         // timeout=10s => againt
 
     	// console.log("Sending car status to Android");
