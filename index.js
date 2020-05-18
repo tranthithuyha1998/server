@@ -48,33 +48,14 @@ io.sockets.on('connection',function(socket){
         var objectValue = JSON.parse(string);
         // goi len android
         io.sockets.emit("car-status", stt)
-        /////////////////////////////////
-        if(stt=="Lost"){
-            io.sockets.emit("send-img", img_text)
-            speed=null
-            message=null
-            image=objectValue['Image'];
-            captime=objectValue['CapTime'];
-            
-        }
-        if(stt == "Stop"){
-            io.sockets.emit("send-img", img_text)
-            speed=null
-            message=null
-            image=objectValue['Image'];
-            captime=objectValue['CapTime'];
-        }
-        if(stt=="Run"){
-            image=null
-            captime=null
-            speed =objectValue['speed'];
-            Stt = objectValue['status']
-            message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
-        }
-    
-
+        /// 
+        image=null
+        captime=null
+        speed =objectValue['speed'];
+        Stt = objectValue['status']
+        message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
+        // else{message="Lost "+objectValue['lostTime']+"s"}
     })
-
     nhanDuoc=false;
 
     //Raspberry send image information
