@@ -53,7 +53,7 @@ io.sockets.on('connection',function(socket){
         Stt = objectValue['status']
 
         if (Stt=="Run"){
-           message ="Status: Car is running,       " + "Speed: "+ speed;
+           message ="Car is running,       " + "Speed: "+ speed;
            image =null;
            captime =null;
         }
@@ -61,7 +61,7 @@ io.sockets.on('connection',function(socket){
             message="Waring: 危ないよ！！！！　　　　";
         }
         if(Stt =="Lost"){
-            message ="Status: Opps! where I am now?";
+            message ="Opps! where I am now?";
         }
         // message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
         // else{message="Lost "+objectValue['lostTime']+"s"}
