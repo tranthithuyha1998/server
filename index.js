@@ -31,7 +31,7 @@ io.sockets.on('connection',function(socket){
 
 /*
 -> event: from-android
--> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
+-> value: {"request":"run, stop, connect, disconnect, speed_fast, speed_slow, getpic"}
 <- event: car-status
 <- value: {"status":"stop, run, lost", "speed":"45312"}
 */
@@ -68,7 +68,7 @@ io.sockets.on('connection',function(socket){
            // message="Warning: 危ないよ！！！！　　　　";
         }
         if(Stt =="Lost"){
-            message ="Opps! where I am now?";
+            message ="Opps! where am I now?";
         }
         // message="Status: "+ Stt+" ---" + "Speed: "+ speed + "  device: " + androidClients;
         // else{message="Lost "+objectValue['lostTime']+"s"}
@@ -105,12 +105,12 @@ io.sockets.on('connection',function(socket){
             var caseRequest = objectValue["request"];
             console.log("receive from Android: "+objectValue)
             switch(objectValue){
-                case "start": 
-                    io.sockets.emit("from-server", "start")
+                case "connect": 
+                    io.sockets.emit("from-server", "connect")
                     // gởi xuống raspi lệnh start
                     break;
-                case "stop":
-                    io.sockets.emit("from-server", "stop")
+                case "disconnect":
+                    io.sockets.emit("from-server", "disconnect")
                     socket.on('disconnect',function(){
                         //Remove from the list if disconnected
                         androidClients.splice(androidClients.indexOf(socket.id),1);
@@ -118,6 +118,12 @@ io.sockets.on('connection',function(socket){
                         console.log('Android Client got disconnect');
                     });
                     // gởi xuống raspi lệnh stop
+                    break;
+                 case "run":
+                     io.sockets.emit("from-server","run");
+                     break;
+                case "stop":
+                    io.sockets.emit("from-server","stop");
                     break;
                 case "speed_fast":
                     io.sockets.emit("from-server", "fast")
