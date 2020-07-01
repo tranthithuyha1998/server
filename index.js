@@ -18,6 +18,12 @@ var img_text;
 var poweroff=true;
 var nhanDuoc1 = false;
 var androidClients = [];
+
+var logo = document.createElement("logo")
+logo.src="LogoBK.ipg";
+var src = document.getElementById("logo");
+src.appendChild(logo)
+
 app.get("/", (req, res) => { res.render(__dirname + "/index.ejs", { message:message, image:image, captime:captime }); });
 
 //Thông báo có thiết bị kết nối
