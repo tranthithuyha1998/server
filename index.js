@@ -99,7 +99,7 @@ io.sockets.on('connection',function(socket){
     })
 
     // -> event: from-android
-    // -> value: {"request":"start, stop, speed_fast, speed_slow, getpic"}
+    // -> value: {"request":"connect, disconnect, start, stop, speed_fast, speed_slow, getpic"}
     socket.on("from-android", function(info){
         console.log("Android device is connected !");
         // EmitAgaint: while(true){
